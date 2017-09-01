@@ -89,7 +89,7 @@ def create_account(username, password, email, birthday, captchakey2, captchatime
     if captchakey2:
         # TODO add proxy support for PhantomJS
         dcap = dict(DesiredCapabilities.PHANTOMJS)
-        dcap["phantomjs.page.settings.userAgent"] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12127_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.98 Safari/537.36'
+        dcap["phantomjs.page.settings.userAgent"] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.98 Safari/537.36'
         driver = PhantomJS(desired_capabilities=dcap)
     else:
         chrome_options = webdriver.ChromeOptions()
@@ -119,9 +119,9 @@ def create_account(username, password, email, birthday, captchakey2, captchatime
     user.clear()
     user.send_keys(username)
 
-    """
-    _validate_username(driver, username)
 
+    _validate_username(driver, username)
+    """
     elem = driver.find_element_by_name("password")
     elem.clear()
     elem.send_keys(password)
