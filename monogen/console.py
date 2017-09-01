@@ -6,6 +6,7 @@ from argparse import ArgumentParser
 from re import match
 from csv import DictWriter
 from pathlib import Path
+from itertools import cycle
 
 try:
     from monocle.utils import generate_device_info
@@ -72,6 +73,10 @@ def parse_arguments():
     parser.add_argument(
         '-f','--csvfile', type=str, default='accounts.csv',
         help='This is the location you want to save your accounts CSV to.'
+    )
+    parser.add_argument(
+        '-pf','--proxyfile', type=str, default=None,
+        help='Do requests using proxies from this file.'
     )
     parser.add_argument(
         '-it','--inputtext', type=str, default=None,
@@ -158,6 +163,13 @@ def entry():
         lines = [line.rstrip('\n') for line in open(args.inputtext, "r")]
         args.count = len(lines)
 
+    proxy_pool = None
+    if args.proxyfile is not None:
+        print(("Using proxies from: " + args.proxyfile))
+        with open(args.proxyfile) as proxyfile:
+            # create cycle proxy pool
+            proxy_pool = cycle(proxyfile.readlines())
+
     output = Path(args.csvfile)
     write_header = not output.exists()
     newline = False
@@ -179,11 +191,13 @@ def entry():
             error_msg = None
             try:
                 try:
-                    account_info = random_account(args.email, username, args.password, args.birthday, args.plusmail, args.recaptcha, args.captchatimeout)
+                    proxy = next(proxy_pool) if proxy_pool else None
+                    account_info = random_account(args.email, username, args.password, args.birthday, args.plusmail, args.recaptcha, args.captchatimeout, proxy)
                     
                     print('  Username:  {}'.format(account_info["username"]))
                     print('  Password:  {}'.format(account_info["password"]))
                     print('  Email   :  {}'.format(account_info["email"]))
+                    print('  Proxy   :  {}'.format(proxy))
 
                     # Verify email
                     if (args.googlepass is not None):
