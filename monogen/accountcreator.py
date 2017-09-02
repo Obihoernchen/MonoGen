@@ -119,9 +119,8 @@ def create_account(username, password, email, birthday, captchakey2, captchatime
     user.clear()
     user.send_keys(username)
 
+    #_validate_username(driver, username)
 
-    _validate_username(driver, username)
-    """
     elem = driver.find_element_by_name("password")
     elem.clear()
     elem.send_keys(password)
@@ -199,7 +198,7 @@ def create_account(username, password, email, birthday, captchakey2, captchatime
     print("Account successfully created.")
     driver.quit()
     return True
-    """
+
 
 def _validate_response(driver):
     url = driver.current_url
