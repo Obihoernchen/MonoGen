@@ -85,7 +85,7 @@ def create_account(username, password, email, birthday, captchakey2, captchatime
     if password:
         _validate_password(password)
 
-    print("Attempting to create user {user}:{pw}. Opening browser...".format(user=username, pw=password))
+    print("Attempting to create user {user}:{pw} using proxy: {proxy}. Opening browser...".format(user=username, pw=password, proxy=proxy))
     if captchakey2:
         # TODO add proxy support for PhantomJS
         dcap = dict(DesiredCapabilities.PHANTOMJS)

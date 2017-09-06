@@ -197,7 +197,6 @@ def entry():
                     print('  Username:  {}'.format(account_info["username"]))
                     print('  Password:  {}'.format(account_info["password"]))
                     print('  Email   :  {}'.format(account_info["email"]))
-                    print('  Proxy   :  {}'.format(proxy))
 
                     # Verify email
                     if (args.googlepass is not None):
